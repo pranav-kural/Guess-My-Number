@@ -5,72 +5,74 @@ let secretNum = Math.trunc(Math.random()*20) + 1;
 // define score
 let score = 20; // initially 20 (max)
 let highscore = 0;
+// shorthand for document.querySelector
+const el = document.querySelector.bind(document);
 
 // decrement score by 1 and update DOM
 function decrementScore() {
     // decrement the score
     score--;
     // show updated score
-    document.querySelector('.score').textContent = score;
+    el('.score').textContent = score;
 }
 
 
 // add event listener for the "check" button
-document.querySelector('.check').addEventListener( 'click', () => {
+el('.check').addEventListener( 'click', () => {
     // get the guess value, convert to number
-    const GUESS = Number(document.querySelector('.guess').value);
-    // TEST
-    console.log("Guess: " + GUESS);
+    const GUESS = Number(el('.guess').value);
     // check if user hasn't already lost the game
     if (score > 1) {
         // check guess
-        if (!GUESS) {
-            // if no guess made, or value 0
-            document.querySelector('.message').textContent = "😵 Not a valid guess!";
+        if (!GUESS || GUESS < 1) {
+            // if no guess made, or value lower than 1
+            el('.message').textContent = "😵 Not a valid guess!";
         } else if (GUESS == secretNum) {
-            document.querySelector('.message').textContent = "🥳 Correct Number!";
+            el('.message').textContent = "🥳 Correct Number!";
             // display the secret number
-            document.querySelector('.number').textContent = secretNum;
+            el('.number').textContent = secretNum;
             // change style on success
-            document.querySelector('body').style.backgroundColor = "#60b347";
-            document.querySelector('.number').style.width = "30rem";
+            el('body').style.backgroundColor = "#60b347";
+            el('.number').style.width = "30rem";
             // hide the check button and display the again button
-            document.querySelector('.check').style.display = "none";
-            document.querySelector('.again').style.display = "inline-block";
+            el('.check').style.display = "none";
+            el('.again').style.display = "inline-block";
             // update highscore if current score greater than highscore
-            if (score > highscore) highscore = score;
-            document.querySelector('.highscore').textContent = highscore;
+            if (score > highscore) {
+                highscore = score;
+                el('.highscore').textContent = highscore;
+            } 
         } else if (GUESS > secretNum) {
-            document.querySelector('.message').textContent = "📈 Too high!";
+            el('.message').textContent = "📈 Too high!";
             // decrement the score and display new score
             decrementScore();
         } else if (GUESS < secretNum) {
-            document.querySelector('.message').textContent = "📉 Too low!";
+            el('.message').textContent = "📉 Too low!";
             // decrement the score and display new score
             decrementScore();
         }
     } else {
         // set score to zero
         decrementScore();
-        document.querySelector('.message').textContent = "😿 You lost the game!";
+        el('.message').textContent = "😿 You lost the game!";
     }
 }); // click event listener for "check" button
 
-document.querySelector('.again').addEventListener('click', () => {
+el('.again').addEventListener('click', () => {
 
     // hide the secret number
-    document.querySelector('.number').textContent = "?";
+    el('.number').textContent = "?";
     // recompute a new secret number
     secretNum = Math.trunc(Math.random()*20) + 1;
     // reset score
     score = 20;
-    document.querySelector('.score').textContent = score;
-    document.querySelector('.message').textContent = "Start guessing...."
+    el('.score').textContent = score;
+    el('.message').textContent = "Start guessing...."
     // reset the styles
-    document.querySelector('body').style.backgroundColor = "#222";
-    document.querySelector('.number').style.width = "15rem";
-    document.querySelector('.guess').value = "";
+    el('body').style.backgroundColor = "#222";
+    el('.number').style.width = "15rem";
+    el('.guess').value = "";
     // show the check button and hide the again button
-    document.querySelector('.check').style.display = "inline-block";
-    document.querySelector('.again').style.display = "none";
+    el('.check').style.display = "inline-block";
+    el('.again').style.display = "none";
 });
