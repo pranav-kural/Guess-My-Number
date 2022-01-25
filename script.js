@@ -1,3 +1,7 @@
+/*
+    Author: Pranav Kural
+*/
+
 'use strict';
 
 // define the secret number
@@ -26,6 +30,11 @@ function gameOver() {
     el('.number').style.width = "30rem";
 }
 
+// update message on front-end
+function displayMessage(message) {
+    el('.message').textContent = message;
+}
+
 
 // add event listener for the "check" button
 el('.check').addEventListener( 'click', () => {
@@ -34,9 +43,9 @@ el('.check').addEventListener( 'click', () => {
     // check guess
     if (GUESS < 1) {
         // if no guess made, or value lower than 1
-        el('.message').textContent = "😵 Not a valid guess!";
+        displayMessage("😵 Not a valid guess!");
     } else if (GUESS == secretNum) {
-        el('.message').textContent = "🥳 Correct Number!";
+        displayMessage("🥳 Correct Number!");
         // change style on success
         el('body').style.backgroundColor = "#60b347";
         // execute game over
@@ -49,14 +58,14 @@ el('.check').addEventListener( 'click', () => {
     } else {
         // check if user hasn't already lost the game
         if (score > 1) {
-            el('.message').textContent = (GUESS > secretNum) ? "📈 Too high!" : "📉 Too low!";
+            displayMessage((GUESS > secretNum) ? "📈 Too high!" : "📉 Too low!");
             // decrement the score and display new score
             decrementScore();
         } else {
             // this block executes if user loses the game
             // set score to zero
             decrementScore();
-            el('.message').textContent = "😿 You lost the game!";
+            displayMessage("😿 You lost the game!");
             // execute game over
             gameOver();
         }    
@@ -72,7 +81,7 @@ el('.again').addEventListener('click', () => {
     // reset score
     score = 20;
     el('.score').textContent = score;
-    el('.message').textContent = "Start guessing...."
+    displayMessage("Start guessing....");
     // reset the styles
     el('body').style.backgroundColor = "#222";
     el('.number').style.width = "15rem";
