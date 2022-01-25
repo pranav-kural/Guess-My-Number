@@ -58,6 +58,10 @@ document.querySelector('.again').addEventListener('click', () => {
     document.querySelector('.number').textContent = "?";
     // recompute a new secret number
     secretNum = Math.trunc(Math.random()*20) + 1;
+    // reset score
+    score = 20;
+    document.querySelector('.score').textContent = score;
+    document.querySelector('.message').textContent = "Start guessing...."
     // reset the styles
     document.querySelector('body').style.backgroundColor = "#222";
     document.querySelector('.number').style.width = "15rem";
