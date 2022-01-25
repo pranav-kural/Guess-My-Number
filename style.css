@@ -77,9 +77,8 @@ h1 {
 }
 
 .again {
-  position: absolute;
-  top: 2rem;
-  left: 2rem;
+  /* hidden by default */
+  display: none;
 }
 
 .guess {
