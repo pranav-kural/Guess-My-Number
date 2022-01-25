@@ -4,6 +4,7 @@
 let secretNum = Math.trunc(Math.random()*20) + 1;
 // define score
 let score = 20; // initially 20 (max)
+let highscore = 0;
 
 // decrement score by 1 and update DOM
 function decrementScore() {
@@ -36,6 +37,9 @@ document.querySelector('.check').addEventListener( 'click', () => {
             // hide the check button and display the again button
             document.querySelector('.check').style.display = "none";
             document.querySelector('.again').style.display = "inline-block";
+            // update highscore if current score greater than highscore
+            if (score > highscore) highscore = score;
+            document.querySelector('.highscore').textContent = highscore;
         } else if (GUESS > secretNum) {
             document.querySelector('.message').textContent = "📈 Too high!";
             // decrement the score and display new score
