@@ -16,46 +16,51 @@ function decrementScore() {
     el('.score').textContent = score;
 }
 
+// perform tasks when game is over (whether loss or win)
+function gameOver() {
+    // hide the check button and display the again button
+    el('.check').style.display = "none";
+    el('.again').style.display = "inline-block";
+    // display the secret number
+    el('.number').textContent = secretNum;
+    el('.number').style.width = "30rem";
+}
+
 
 // add event listener for the "check" button
 el('.check').addEventListener( 'click', () => {
     // get the guess value, convert to number
     const GUESS = Number(el('.guess').value);
-    // check if user hasn't already lost the game
-    if (score > 1) {
-        // check guess
-        if (!GUESS || GUESS < 1) {
-            // if no guess made, or value lower than 1
-            el('.message').textContent = "😵 Not a valid guess!";
-        } else if (GUESS == secretNum) {
-            el('.message').textContent = "🥳 Correct Number!";
-            // display the secret number
-            el('.number').textContent = secretNum;
-            // change style on success
-            el('body').style.backgroundColor = "#60b347";
-            el('.number').style.width = "30rem";
-            // hide the check button and display the again button
-            el('.check').style.display = "none";
-            el('.again').style.display = "inline-block";
-            // update highscore if current score greater than highscore
-            if (score > highscore) {
-                highscore = score;
-                el('.highscore').textContent = highscore;
-            } 
-        } else if (GUESS > secretNum) {
-            el('.message').textContent = "📈 Too high!";
-            // decrement the score and display new score
-            decrementScore();
-        } else if (GUESS < secretNum) {
-            el('.message').textContent = "📉 Too low!";
-            // decrement the score and display new score
-            decrementScore();
-        }
+    // check guess
+    if (GUESS < 1) {
+        // if no guess made, or value lower than 1
+        el('.message').textContent = "😵 Not a valid guess!";
+    } else if (GUESS == secretNum) {
+        el('.message').textContent = "🥳 Correct Number!";
+        // change style on success
+        el('body').style.backgroundColor = "#60b347";
+        // execute game over
+        gameOver();
+        // update highscore if current score greater than highscore
+        if (score > highscore) {
+            highscore = score;
+            el('.highscore').textContent = highscore;
+        } 
     } else {
-        // set score to zero
-        decrementScore();
-        el('.message').textContent = "😿 You lost the game!";
-    }
+        // check if user hasn't already lost the game
+        if (score > 1) {
+            el('.message').textContent = (GUESS > secretNum) ? "📈 Too high!" : "📉 Too low!";
+            // decrement the score and display new score
+            decrementScore();
+        } else {
+            // this block executes if user loses the game
+            // set score to zero
+            decrementScore();
+            el('.message').textContent = "😿 You lost the game!";
+            // execute game over
+            gameOver();
+        }    
+    }       
 }); // click event listener for "check" button
 
 el('.again').addEventListener('click', () => {
